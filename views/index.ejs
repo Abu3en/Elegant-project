@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/head.ejs') %>
+
+
+    <body>
+        <%- include('./partials/navbar.ejs') %>
+
+            <div class="tasks-content">
+                <h1>Tasks List</h1>
+                <% if(tasks.length> 0) { %>
+                    <% tasks.forEach(task=> {
+                        let dueDate = new Date(task.dueDate);
+                        let today = new Date();
+                        let timeDiff = dueDate - today;
+                        let daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); %>
+                        <div class="single-task">
+                            <a href="/home/<%= task._id %>">
+                                <h3>
+                                    <%= task.name %>
+                                </h3>
+                                <p> Description: <%= task.description %>
+                                </p>
+                                <p>
+                                    <% if(daysLeft < 0) { %>
+                                        Overdue by <%= Math.abs(daysLeft) %>
+                                            <% } else { %>
+                                                Due in: <%= daysLeft %> days
+                                                    <% } %>
+                                </p>
+                                <p>Assigned Person: <%= task.person %>
+                                </p>
+                            </a>
+
+                        </div>
+
+                        <% }); %>
+                            <% } else{ %>
+                                <h3 class="no-tasks">No Created Tasks</h3>
+                                <% } %>
+            </div>
+            <%- include('./partials/footer.ejs') %>
+
+    </body>
+
+</html>

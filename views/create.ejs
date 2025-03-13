@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+
+    <body>
+        <%- include('./partials/navbar.ejs') %>
+            <div class="create-form">
+                <h1>Create a Task</h1>
+                <form action="/home" method="POST" id="task-form">
+                    <label for="name">Task Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description"></textarea>
+
+                    <label for="startDate">Start Date</label>
+                    <input type="date" name="startDate" id="startDate" required>
+
+                    <label for="dueDate">End Date</label>
+                    <input type="date" name="dueDate" id="dueDate" required>
+
+                    <label for="person">Assigned person</label>
+                    <input type="text" id="person" name="person" required>
+
+                    <button class="add-button">Add Task</button>
+                </form>
+            </div>
+
+            <%- include('./partials/footer.ejs') %>
+
+    </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const startDateInput = document.getElementById("startDate");
+            const dueDateInput = document.getElementById("dueDate");
+            const form = document.getElementById("task-form");
+
+            form.addEventListener("submit", function (event) {
+                let startDate = new Date(startDateInput.value);
+                let dueDate = new Date(dueDateInput.value);
+
+                if (dueDate < startDate) {
+                    event.preventDefault();
+                    alert("End Date cannot be before Start Date!");
+                }
+            });
+        });
+
+    </script>
+
+
+</html>

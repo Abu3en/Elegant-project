@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+
+    <body>
+        <%- include('./partials/navbar') %>
+
+            <div class="single-task">
+                <h3>
+                    <%= task.name %>
+                </h3>
+                <p> Description: <%= task.description %>
+                </p>
+
+                <% let start=new Date(task.startDate).toLocaleDateString('en-GB', { day: 'numeric' , month: 'long' ,
+                    year: 'numeric' }); let due=new Date(task.dueDate).toLocaleDateString('en-GB', { day: 'numeric' ,
+                    month: 'long' , year: 'numeric' }); %>
+
+                    <p>Start Date: <%= start %>
+                    </p>
+                    <p>Due Date: <%= due %>
+                    </p>
+
+                    <p>Assigned Person: <%= task.person %>
+                    </p>
+                    <span class="done-delete">
+                        <a class="delete-button" data-task="<%= task._id %>">Delete</a>
+                        <a class="done-button" data-task="<%= task._id %>">Done</a>
+                    </span>
+
+
+            </div>
+            <%- include('./partials/footer') %>
+    </body>
+    <script>
+        const trashcan = document.querySelector('a.delete-button');
+
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/home/${trashcan.dataset.task}`;
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => window.location.href = data.redirect)
+                .catch(err => console.log("error within fetch method " + err))
+        })
+
+        const done = document.querySelector('a.done-button');
+        done.addEventListener('click', (e) => {
+
+            const endpoint = `/home/${trashcan.dataset.task}`;
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Congratulations! You've successfully completed this task! 🎉")
+                    window.location.href = data.redirect
+                })
+                .catch(err => console.log("error within fetch method " + err))
+        })
+
+    </script>
+
+</html>
